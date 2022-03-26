@@ -1,8 +1,18 @@
-let img = [], imgIndex;
+// Variables to read images
+let img = [], imgIndex, paletteIndex;
+let photoPixels = [];
+// Variables for a responsive square canvas
 let offsetX, offsetY, sqSide;
+// Constants used to draw the image
+const photoPalettes = [
+  // ['#404f11', '#6f8127', '#9fa83f', '#d0d059'], // Green DMG
+  // https://lospec.com/palette-list/nintendo-gameboy-bgb
+  ['#081820', '#346856', '#88c070', '#e0f8d0'], 
+  // https://lospec.com/palette-list/2bit-demichrome
+  ['#211e20', '#555568', '#a0a08b', '#e9efec'], 
+];
 const bgColor = 0;
 const pixelOverlap = 2;
-let photoPixels = [];
 
 function preload() {
   img.push(loadImage("./photos/20070804_pescao.png"));
@@ -15,6 +25,9 @@ function setup() {
   imgIndex = 0;
   img[imgIndex].loadPixels();
   photoPixels = parseImage();
+
+  paletteIndex = ~~(random() * photoPalettes.length);
+
   windowResized();
   drawEverything();
 }
@@ -55,7 +68,7 @@ function drawPhoto() {
   for (y = 0; y < img[imgIndex].height; y++) {
     for (x = 0; x < img[imgIndex].height; x++) {
       let pix = photoPixels[y][x];
-      fill(pix * 256/3);
+      fill(photoPalettes[paletteIndex][pix]);
       rect(x * pixelSize, y * pixelSize, ~~pixelSize + pixelOverlap, ~~pixelSize + pixelOverlap);
     }
   }
