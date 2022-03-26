@@ -52,15 +52,15 @@ function parseImage() {
 
 function drawPhoto() {
   const pixelSize = sqSide/img[imgIndex].height;
-  const initialX = (img[imgIndex].width - img[imgIndex].height) / 2;
   for (y = 0; y < img[imgIndex].height; y++) {
-    for (x = initialX; x < img[imgIndex].height + initialX; x++) {
-      let pix = img[imgIndex].get(x, y);
-      fill(pix);
-      rect((x - initialX) * pixelSize, y * pixelSize, ~~pixelSize + pixelOverlap, ~~pixelSize + pixelOverlap);
+    for (x = 0; x < img[imgIndex].height; x++) {
+      let pix = photoPixels[y][x];
+      fill(pix * 256/3);
+      rect(x * pixelSize, y * pixelSize, ~~pixelSize + pixelOverlap, ~~pixelSize + pixelOverlap);
     }
   }
   fill(bgColor);
+  // Cover excess pixel-to-pixel overlap excess
   fill(0);
   rect(sqSide, 0, pixelOverlap, sqSide);
   rect(0, sqSide, sqSide, pixelOverlap);
