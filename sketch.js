@@ -9,6 +9,7 @@ function preload() {
 function setup() {
   imgIndex = 0;
   img[imgIndex].loadPixels();
+  // console.log(img[imgIndex].get(0, img[imgIndex].height - 1));
   createCanvas(windowWidth, windowHeight);
   windowResized();
   noStroke();
@@ -28,22 +29,15 @@ function drawEverything() {
   pop();
 }
 function drawPhoto() {
-  const pixelSize = sqSide/img[imgIndex].width;
-  console.log(pixelSize, pixelSize * img[imgIndex].width);
-  push();
-  photoOffsetY = sqSide * (1 - (img[imgIndex].height/img[imgIndex].width))/2;
-  translate(0, photoOffsetY);
+  const pixelSize = sqSide/img[imgIndex].height;
+  initialX = (img[imgIndex].width - img[imgIndex].height) / 2;
   for (y = 0; y < img[imgIndex].height; y++) {
-    for (x = 0; x < img[imgIndex].width; x++) {
+    for (x = initialX; x < img[imgIndex].height + initialX; x++) {
       let pix = img[imgIndex].get(x, y);
       fill(pix);
-      rect(x * pixelSize, y * pixelSize, ~~pixelSize+2, ~~pixelSize+2);
+      rect((x - initialX) * pixelSize, y * pixelSize, ~~pixelSize+2, ~~pixelSize+2);
     }
   }
-  pop();
-  fill(bgColor);
-  rect(0, 0, sqSide, photoOffsetY);
-  rect(0, sqSide - photoOffsetY, sqSide, photoOffsetY);
 }
 
 function windowResized() {
