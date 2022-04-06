@@ -5,11 +5,24 @@ let photoPixels = [];
 let offsetX, offsetY, sqSide;
 // Constants used to draw the image
 const photoPalettes = [
-  // ['#404f11', '#6f8127', '#9fa83f', '#d0d059'], // Green DMG
-  // https://lospec.com/palette-list/nintendo-gameboy-bgb
-  ['#081820', '#346856', '#88c070', '#e0f8d0'], 
-  // https://lospec.com/palette-list/2bit-demichrome
-  ['#211e20', '#555568', '#a0a08b', '#e9efec'], 
+  // dmg
+  ['#2a423a', '#375a4a', '#5a7940', '#7c8110'], 
+  // pocket
+  ['#181818', '#8c926b', '#8c926b', '#c6cba4'], 
+  // light
+  ['#005138', '#006a4b', '#019a72', '#00b383'], 
+  // color
+  ['#3a3a3a', '#4d8ea1', '#96c879', '#eceaed'], 
+];
+const caracterPalettes = [
+  // dmg
+  ['#2a423a', '#375a4a', '#5a7940', '#7c8110'], 
+  // pocket
+  ['#181818', '#8c926b', '#8c926b', '#c6cba4'], 
+  // light
+  ['#005138', '#006a4b', '#019a72', '#00b383'], 
+  // color
+  ['#3a3a3a', '#95626f', '#dc95a8', '#eceaed'], 
 ];
 const bgColor = 0;
 const pixelOverlap = 2;
@@ -43,7 +56,7 @@ function drawEverything() {
 function parseImage() {
   const initialX = (img[imgIndex].width - img[imgIndex].height) / 2;
   let allRowsPix = [];
-  for (y = 0; y < img[imgIndex].height; y++) {
+  for (let y = 0; y < img[imgIndex].height; y++) {
     let rowPix = [];
     for (x = initialX; x < img[imgIndex].height + initialX; x++) {
       let pix = img[imgIndex].get(x, y);
