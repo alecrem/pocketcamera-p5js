@@ -1,0 +1,30 @@
+{
+  "name": "pocketcamera2json",
+  "version": "1.0.0",
+  "description": "Tool to turn Pocket Camera images to matrices",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alecrem/pocketcamera-p5js.git"
+  },
+  "keywords": [
+    "pocket camera",
+    "game boy camera",
+    "gameboy camera",
+    "game boy",
+    "gameboy"
+  ],
+  "author": "Alejandro Cremades",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alecrem/pocketcamera-p5js/issues"
+  },
+  "homepage": "https://github.com/alecrem/pocketcamera-p5js#readme",
+  "dependencies": {
+    "node-p5": "^1.0.4"
+  }
+}
