@@ -2,36 +2,11 @@ const p5 = require('node-p5');
 
 function sketch(p) {
   // Variables to read images
-  p.img = [], p.imgIndex, p.paletteIndex;
+  p.img = [], p.imgIndex;
   p.photoPixels = [];
-  // Variables for a responsive square canvas
-  p.offsetX, p.offsetY, p.sqSide;
-  // Constants used to draw the image
-  p.photoPalettes = [
-    // dmg
-    ['#2a423a', '#375a4a', '#5a7940', '#7c8110'], 
-    // pocket
-    ['#181818', '#8c926b', '#8c926b', '#c6cba4'], 
-    // light
-    ['#005138', '#006a4b', '#019a72', '#00b383'], 
-    // color
-    ['#3a3a3a', '#4d8ea1', '#96c879', '#eceaed'], 
-  ];
-  p.caracterPalettes = [
-    // dmg
-    ['#2a423a', '#375a4a', '#5a7940', '#7c8110'], 
-    // pocket
-    ['#181818', '#8c926b', '#8c926b', '#c6cba4'], 
-    // light
-    ['#005138', '#006a4b', '#019a72', '#00b383'], 
-    // color
-    ['#3a3a3a', '#95626f', '#dc95a8', '#eceaed'], 
-  ];
-  p.bgColor = 0;
-  p.pixelOverlap = 2;
 
   p.setup = async () => {
-    p.img.push(await p.loadImage("../photos/bg09.png"));
+    p.img.push(await p.loadImage("../photos/20070804_pescao.png"));
     p.imgIndex = 0;
     p.img[p.imgIndex].loadPixels();
     p.photoPixels = p.parseImage();
@@ -45,7 +20,7 @@ function sketch(p) {
     let allRowsPix = [];
     for (let y = 0; y < p.img[p.imgIndex].height; y++) {
       let rowPix = [];
-      for (x = initialX; x < p.img[p.imgIndex].height + initialX; x++) {
+      for (let x = initialX; x < p.img[p.imgIndex].height + initialX; x++) {
         let pix = p.img[p.imgIndex].get(x, y);
         // 0, 102, 153, 255
         if (pix[0] < 64) {
@@ -60,8 +35,39 @@ function sketch(p) {
       }
       allRowsPix.push(rowPix);
     }
-    return allRowsPix;
+    let allRowsBase64 = [];
+    const pixelsPerChar = 3;
+    const bitsPerPixel = 2;
+    for (let y = 0; y < allRowsPix.length; y++) {
+      let base64digit = 0;
+      let row = '';
+      for (let x = allRowsPix[y].length - 1; x >= 0; x--) {
+        base64digit += allRowsPix[y][x] << bitsPerPixel * (x % pixelsPerChar);
+        if(x % pixelsPerChar == pixelsPerChar - 1 || x == 0) {
+          row += String.fromCharCode(uint6ToB64(base64digit));
+          base64digit = 0;
+        }
+      }
+      // console.log('row length', row.length, row.length * 3, allRowsPix[y].length);
+      allRowsBase64.push(row);
+    }
+    return allRowsBase64;
   }
+}
+
+const uint6ToB64 = (nUint6) => {
+  return nUint6 < 26 ?
+      nUint6 + 65
+    : nUint6 < 52 ?
+      nUint6 + 71
+    : nUint6 < 62 ?
+      nUint6 - 4
+    : nUint6 === 62 ?
+      43
+    : nUint6 === 63 ?
+      47
+    :
+      65;
 }
 
 let p5Instance = p5.createSketch(sketch);
